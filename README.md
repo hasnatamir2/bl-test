@@ -9,3 +9,31 @@
 - Clean code, Standard practices.
 - Any package can be used to create the carousels, Bottom Navbar etc.
 - 4Days timeline.
+
+## Installation
+
+```bash
+yarn install
+```
+### IOS
+```bash
+cd ios && pod install
+```
+### Android
+```bash
+cd android && ./gradlew clean
+```
+
+## Usage
+
+```bash
+yarn start
+```
+### IOS
+```bash
+yarn ios
+```
+### Android
+```bash
+yarn android
+```
