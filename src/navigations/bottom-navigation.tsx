@@ -1,9 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useMemo} from 'react';
 import {BottomNavigation} from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import useAuth from '../infra/hooks/useAuth';
 import {useAppSelector} from '../infra/hooks/useRTK';
-import useCart from '../infra/hooks/useCart';
 
 import HomeScreen from '../screens/home';
 
@@ -11,7 +11,6 @@ function BottomTabs() {
   const {setAuth} = useAuth();
   const [index, setIndex] = React.useState(0);
   const {cart} = useAppSelector(state => state.cart);
-  const {getCart} = useCart();
 
   const [routes, setRoutes] = React.useState([
     {
@@ -46,18 +45,12 @@ function BottomTabs() {
       const token = await AsyncStorage.getItem('@AuthToken');
       const user = await AsyncStorage.getItem('@BlUser');
       if (token && user) {
-        setAuth(user, token);
+        setAuth(JSON.parse(user), token);
       }
     };
 
     checkAuth();
   }, [setAuth]);
-
-  useEffect(() => {
-    if (!cart.id) {
-      getCart();
-    }
-  }, []);
 
   useMemo(() => {
     const newRoutes = [...routes];

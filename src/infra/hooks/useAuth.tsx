@@ -3,10 +3,12 @@ import authService from '../services/auth-service';
 import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useAppDispatch} from './useRTK';
+import useCart from './useCart';
 import {setUser} from '../redux/slices/userSlice';
 
 const useAuth = () => {
   const {toggleLoading} = useLoading();
+  const {getCart} = useCart();
   const dispatch = useAppDispatch();
 
   const loginUser = async ({
@@ -22,6 +24,7 @@ const useAuth = () => {
       if (res.status === 200) {
         const {token, ...rest} = res.data;
         setAuth(rest, token);
+        getCart();
       }
       toggleLoading(false);
     } catch (error: any) {
@@ -35,7 +38,7 @@ const useAuth = () => {
     await AsyncStorage.setItem('@AuthToken', token);
     dispatch(
       setUser({
-        user,
+        user: JSON.parse(JSON.stringify(user)),
         token,
       }),
     );
